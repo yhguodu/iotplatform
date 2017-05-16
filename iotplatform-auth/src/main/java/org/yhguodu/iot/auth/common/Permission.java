@@ -1,42 +1,38 @@
 package org.yhguodu.iot.auth.common;
 
-import javax.persistence.Entity;
-import javax.persistence.*;
-import javax.persistence.Table;
-
-@Entity
-@Table(name="user_permission")
 public class Permission {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-    private String permissionname;
 
-    @ManyToOne
-    @JoinColumn(name = "role_id")
-    private Role role;// 一个权限对应一个角色
+    private int id;
+    private String permissionName;
+    private int roleId;
 
-    public Integer getId() {
+    public Permission(int id, String permissionName, int roleId) {
+        this.id = id;
+        this.permissionName = permissionName;
+        this.roleId = roleId;
+    }
+
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public String getPermissionname() {
-        return permissionname;
+    public String getPermissionName() {
+        return permissionName;
     }
 
-    public void setPermissionname(String permissionname) {
-        this.permissionname = permissionname;
+    public void setPermissionName(String permissionName) {
+        this.permissionName = permissionName;
     }
 
-    public Role getRole() {
-        return role;
+    public int getRoleId() {
+        return roleId;
     }
 
-    public void setRole(Role role) {
-        this.role = role;
+    public void setRoleId(int roleId) {
+        this.roleId = roleId;
     }
 }

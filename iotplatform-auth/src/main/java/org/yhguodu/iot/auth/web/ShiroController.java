@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.yhguodu.iot.auth.common.User;
+import org.yhguodu.iot.auth.service.AuthService;
 
 import javax.validation.Valid;
 import java.util.Map;
@@ -22,7 +23,7 @@ public class ShiroController {
     private static final Logger logger = LoggerFactory.getLogger(ShiroController.class);
 
     @Autowired
-    private IUserDao userDao;
+    private AuthService authService;
 
     @RequestMapping(value="/login",method= RequestMethod.GET)
     public String loginForm(Model model){
@@ -89,11 +90,13 @@ public class ShiroController {
         return "403";
     }
 
+    /*
     @RequestMapping("/user")
     public String getUserList(Map<String, Object> model){
         model.put("userList", userDao.getList());
         return "user";
     }
+    */
 
     @RequestMapping("/user/edit/{userid}")
     public String getUserList(@PathVariable int userid){

@@ -1,4 +1,4 @@
-package org.yhguodu.iot.auth.configuration;
+package org.yhguodu.iot.auth.web;
 
 
 import org.apache.shiro.cache.ehcache.EhCacheManager;
@@ -91,6 +91,7 @@ public class ShiroConfiguration {
      * @author SHANHY
      * @create  2016年1月14日
      */
+    /*
     private void loadShiroFilterChain(ShiroFilterFactoryBean shiroFilterFactoryBean, StudentService stuService, IScoreDao scoreDao){
         /////////////////////// 下面这些规则配置最好配置到配置文件中 ///////////////////////
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<String, String>();
@@ -105,7 +106,7 @@ public class ShiroConfiguration {
 
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
     }
-
+    */
     /**
      * ShiroFilter<br/>
      * 注意这里参数中的 StudentService 和 IScoreDao 只是一个例子，因为我们在这里可以用这样的方式获取到相关访问数据库的对象，
@@ -118,6 +119,7 @@ public class ShiroConfiguration {
      * @author SHANHY
      * @create  2016年1月14日
      */
+    /*
     @Bean(name = "shiroFilter")
     public ShiroFilterFactoryBean getShiroFilterFactoryBean(DefaultWebSecurityManager securityManager, StudentService stuService, IScoreDao scoreDao) {
 
@@ -133,5 +135,5 @@ public class ShiroConfiguration {
         loadShiroFilterChain(shiroFilterFactoryBean, stuService, scoreDao);
         return shiroFilterFactoryBean;
     }
-
+    */
 }

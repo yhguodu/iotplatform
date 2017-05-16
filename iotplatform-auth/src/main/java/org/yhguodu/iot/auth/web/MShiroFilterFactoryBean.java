@@ -1,13 +1,21 @@
-package org.yhguodu.iot.auth.configuration;
+package org.yhguodu.iot.auth.web;
 
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.filter.mgt.FilterChainManager;
 import org.apache.shiro.web.filter.mgt.FilterChainResolver;
 import org.apache.shiro.web.filter.mgt.PathMatchingFilterChainResolver;
 import org.apache.shiro.web.mgt.WebSecurityManager;
+import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.web.servlet.AbstractShiroFilter;
 import org.springframework.beans.factory.BeanInitializationException;
 
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.util.HashSet;
 import java.util.Set;
 
 
@@ -17,7 +25,7 @@ public class MShiroFilterFactoryBean  extends ShiroFilterFactoryBean {
 
     public MShiroFilterFactoryBean() {
         super();
-        ignoreExt = new HashSet<>();
+        ignoreExt = new HashSet<String>();
         ignoreExt.add(".jpg");
         ignoreExt.add(".png");
         ignoreExt.add(".gif");

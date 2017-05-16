@@ -1,38 +1,10 @@
 package org.yhguodu.iot.auth.common;
 
-import javax.persistence.Entity;
-import javax.persistence.*;
-import javax.persistence.Table;
-import java.util.ArrayList;
-import java.util.List;
-
-@Entity
-@Table(name="role")
 public class Role {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private String rolename;
 
-    @OneToMany(mappedBy = "role", fetch=FetchType.EAGER)
-    private List<Permission> permissionList;// 一个角色对应多个权限
-    @ManyToMany
-    @JoinTable(name = "user_role", joinColumns = { @JoinColumn(name = "rid") }, inverseJoinColumns = {
-            @JoinColumn(name = "uid") })
-    private List<User> userList;// 一个角色对应多个用户
-
-    // 省略 get set 方法
-
-    @Transient
-    public List<String> getPermissionsName() {
-        List<String> list = new ArrayList<String>();
-        List<Permission> perlist = getPermissionList();
-        for (Permission per : perlist) {
-            list.add(per.getPermissionname());
-        }
-        return list;
-    }
 
     public Integer getId() {
         return id;
@@ -50,19 +22,4 @@ public class Role {
         this.rolename = rolename;
     }
 
-    public List<Permission> getPermissionList() {
-        return permissionList;
-    }
-
-    public void setPermissionList(List<Permission> permissionList) {
-        this.permissionList = permissionList;
-    }
-
-    public List<User> getUserList() {
-        return userList;
-    }
-
-    public void setUserList(List<User> userList) {
-        this.userList = userList;
-    }
 }
