@@ -6,7 +6,7 @@ public class Permission {
     private String permissionName;
     private int roleId;
 
-    public Permission(int id, String permissionName, int roleId) {
+    public Permission(Integer id, String permissionName, Integer roleId) {
         this.id = id;
         this.permissionName = permissionName;
         this.roleId = roleId;

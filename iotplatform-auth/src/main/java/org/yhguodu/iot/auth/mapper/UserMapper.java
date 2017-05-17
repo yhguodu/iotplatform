@@ -10,16 +10,16 @@ public interface UserMapper {
     @Select("select * from user where id = #{id}")
     @Results({
             @Result(column = "id", property = "id"),
-            @Result(column = "name", property = "username"),
+            @Result(column = "username", property = "username"),
             @Result(column = "password", property = "password"),
             @Result(column = "mail", property = "mail"),
     })
     User getUserById(@Param("id") int id);
 
-    @Select("select * from user where name = #{name}")
+    @Select("select * from user where username = #{name}")
     @Results({
             @Result(column = "id", property = "id"),
-            @Result(column = "name", property = "username"),
+            @Result(column = "username", property = "username"),
             @Result(column = "password", property = "password"),
             @Result(column = "mail", property = "mail"),
     })

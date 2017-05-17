@@ -18,7 +18,7 @@ public interface AuthMapper {
     @Select("select  role.id,role.rolename"+
             " from role,user_role"+
             " where role.id=user_role.user_id " +
-            "and user_role.uid = #{id}")
+            "and user_role.role_id = #{id}")
     @Results({
             @Result(column = "id", property = "id"),
             @Result(column = "rolename", property = "rolename")

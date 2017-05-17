@@ -12,27 +12,23 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.yhguodu.iot.auth.common.User;
 import org.yhguodu.iot.auth.service.AuthService;
 
 import javax.validation.Valid;
-import java.util.Map;
 
+@RestController
 public class ShiroController {
     private static final Logger logger = LoggerFactory.getLogger(ShiroController.class);
 
     @Autowired
     private AuthService authService;
 
-    @RequestMapping(value="/login",method= RequestMethod.GET)
-    public String loginForm(Model model){
-        model.addAttribute("user", new User());
-        return "login";
-    }
-
     @RequestMapping(value="/login",method=RequestMethod.POST)
     public String login(@Valid User user, BindingResult bindingResult, RedirectAttributes redirectAttributes){
+        logger.info("login in:"+user.getUsername());
         if(bindingResult.hasErrors()){
             return "login";
         }
@@ -89,17 +85,15 @@ public class ShiroController {
         logger.info("------没有权限-------");
         return "403";
     }
-
-    /*
-    @RequestMapping("/user")
-    public String getUserList(Map<String, Object> model){
-        model.put("userList", userDao.getList());
-        return "user";
-    }
-    */
-
+    
     @RequestMapping("/user/edit/{userid}")
     public String getUserList(@PathVariable int userid){
+        logger.info("------进入用户信息修改-------");
+        return "user_edit";
+    }
+
+    @RequestMapping("/user/query/{userid}")
+    public String queryUserList(@PathVariable int userid){
         logger.info("------进入用户信息修改-------");
         return "user_edit";
     }

@@ -34,6 +34,7 @@ public class MyShiroRealm extends AuthorizingRealm {
         logger.info("##################执行Shiro权限认证##################");
         //获取当前登录输入的用户名，等价于(String) principalCollection.fromRealm(getName()).iterator().next();
         String loginName = (String)super.getAvailablePrincipal(principalCollection);
+        logger.info("loginName;"+loginName);
         //到数据库查是否有此对象
         User user= authService.getUserByName(loginName);// 实际项目中，这里可以根据实际情况做缓存，如果不做，Shiro自己也是有时间间隔机制，2分钟内不会重复执行该方法
         if(user!=null){
@@ -73,8 +74,10 @@ public class MyShiroRealm extends AuthorizingRealm {
         User user=authService.getUserByName(token.getUsername());
         if(user!=null){
             // 若存在，将此用户存放到登录认证info中，无需自己做密码对比，Shiro会为我们进行密码对比校验
+            logger.info("user found");
             return new SimpleAuthenticationInfo(user.getUsername(), user.getPassword(), getName());
         }
+        logger.info("user not found");
         return null;
     }
 }

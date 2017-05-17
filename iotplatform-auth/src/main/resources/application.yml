@@ -1,0 +1,6 @@
+spring:
+  datasource:
+      driverClassName: com.mysql.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/iotplatform_auth?useUnicode=true&characterEncoding=UTF-8&autocommit=false&autoReconnect=true&useSSL=false
+      username: root
+      password: earth&moon
