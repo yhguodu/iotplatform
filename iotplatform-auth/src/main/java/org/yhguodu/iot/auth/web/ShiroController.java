@@ -85,7 +85,7 @@ public class ShiroController {
         logger.info("------没有权限-------");
         return "403";
     }
-    
+
     @RequestMapping("/user/edit/{userid}")
     public String getUserList(@PathVariable int userid){
         logger.info("------进入用户信息修改-------");
