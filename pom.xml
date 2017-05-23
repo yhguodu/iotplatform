@@ -11,6 +11,8 @@
 	<modules>
 		<module>iotplatform-auth</module>
 		<module>iot-servercenter</module>
+		<module>iot-ribbon</module>
+		<module>iot-config</module>
 	</modules>
 
 	<name>iotplatform</name>
