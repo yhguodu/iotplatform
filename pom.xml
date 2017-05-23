@@ -10,6 +10,7 @@
 
 	<modules>
 		<module>iotplatform-auth</module>
+		<module>iot-servercenter</module>
 	</modules>
 
 	<name>iotplatform</name>
@@ -22,10 +23,18 @@
 		<spring.version>1.5.3.RELEASE</spring.version>
 		<mysql.jdbc.version>5.1.32</mysql.jdbc.version>
 		<mybatis-spring.version>1.2.0</mybatis-spring.version>
+		<spring.cloud.starter.eureka.version>1.2.7.RELEASE</spring.cloud.starter.eureka.version>
 	</properties>
 
 	<dependencyManagement>
 		<dependencies>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>Camden.SR7</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
 			<dependency>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-starter</artifactId>
@@ -45,6 +54,11 @@
 				<groupId>org.mybatis.spring.boot</groupId>
 				<artifactId>mybatis-spring-boot-starter</artifactId>
 				<version>${mybatis-spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-starter-eureka</artifactId>
+				<version>${spring.cloud.starter.eureka.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>mysql</groupId>
@@ -67,6 +81,10 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-eureka</artifactId>
 		</dependency>
 	</dependencies>
 
