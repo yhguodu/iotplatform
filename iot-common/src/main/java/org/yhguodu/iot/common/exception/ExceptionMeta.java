@@ -5,7 +5,13 @@ package org.yhguodu.iot.common.exception;
  */
 public enum ExceptionMeta {
     FileNotFound(100000,"File Not Found"),
-    FileIOError(100002,"File Read/Write Eroor");
+    FileIOError(100002,"File Read/Write Eroor"),
+
+    DeviceNotFound(100100,"Device Not Found"),
+    DeviceNotActive(100101,"Device Not Active Moment"),
+
+    CommandRspNotReceived(100201,"Command Response Not Received,Timeout"),
+    CommandSendingError(100202,"Command Sending Eroor");
 
     private int code;
     private String message;

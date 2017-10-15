@@ -5,28 +5,15 @@ package org.yhguodu.iot.common.message;
  */
 public class IotDataMessage extends IotMessage {
     private static final long serialVersionUID = 7590999461767050473L;
-    private int deviceId;
-    private String data;
+    private final String data;
 
     public IotDataMessage(int deviceId,String data) {
-        super(IotMessageType.DATA);
-        this.deviceId = deviceId;
+        super(deviceId,IotMessageType.DATA);
         this.data = data;
-    }
-
-    public int getDeviceId() {
-        return deviceId;
-    }
-
-    public void setDeviceId(int deviceId) {
-        this.deviceId = deviceId;
     }
 
     public String getData() {
         return data;
     }
 
-    public void setData(String data) {
-        this.data = data;
-    }
 }

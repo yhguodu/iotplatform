@@ -3,7 +3,6 @@ package org.yhguodu.iot.sdk.netty;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
-import io.netty.channel.sctp.nio.NioSctpChannel;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.serialization.ClassResolvers;
@@ -12,9 +11,9 @@ import io.netty.handler.codec.serialization.ObjectEncoder;
 import io.netty.handler.timeout.IdleStateHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.yhguodu.iot.common.device.DeviceContext;
+import org.yhguodu.iot.common.message.EventHandler;
 import org.yhguodu.iot.common.message.IotMessage;
-import org.yhguodu.iot.sdk.EventHandler;
-import org.yhguodu.iot.sdk.device.DeviceContext;
 
 import java.util.concurrent.TimeUnit;
 
@@ -33,7 +32,7 @@ public class NettyClient  {
     private ChannelFutureListener futureListener;
     private Channel channel;
 
-    public NettyClient(String host,int port,DeviceContext deviceContext,EventHandler<IotMessage> eventHandler) {
+    public NettyClient(String host, int port, DeviceContext deviceContext, EventHandler<IotMessage> eventHandler) {
         this.host = host;
         this.port = port;
         this.deviceContext = deviceContext;

@@ -9,6 +9,8 @@ public enum IotMessageType {
     DATA,
     DETACH,
     KEEPALIVE,
+    CMDREQ,
+    CMDRSP,
     CONFIG;
 
     IotMessageType() {}

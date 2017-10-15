@@ -10,7 +10,7 @@ public class AttachingMessage extends IotMessage  {
     private final IotDevice device;
 
     public AttachingMessage(IotDevice device) {
-        super(IotMessageType.ATTACHING);
+        super(device.getDeviceId(),IotMessageType.ATTACHING);
         this.device = device;
     }
 

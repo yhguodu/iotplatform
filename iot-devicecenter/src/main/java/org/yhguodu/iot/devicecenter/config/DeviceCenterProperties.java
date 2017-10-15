@@ -9,11 +9,21 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class DeviceCenterProperties {
     private int port;
 
+    private int cmdTimeout;
+
     public int getPort() {
         return port;
     }
 
     public void setPort(int port) {
         this.port = port;
+    }
+
+    public int getCmdTimeout() {
+        return cmdTimeout;
+    }
+
+    public void setCmdTimeout(int cmdTimeout) {
+        this.cmdTimeout = cmdTimeout;
     }
 }

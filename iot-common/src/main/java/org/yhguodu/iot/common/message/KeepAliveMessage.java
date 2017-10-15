@@ -5,18 +5,9 @@ package org.yhguodu.iot.common.message;
  */
 public class KeepAliveMessage extends IotMessage {
     private static final long serialVersionUID = 7590999461767050475L;
-    private int deviceId;
 
     public KeepAliveMessage(int deviceId) {
-        super(IotMessageType.KEEPALIVE);
-        this.deviceId = deviceId;
+        super(deviceId,IotMessageType.KEEPALIVE);
     }
 
-    public int getDeviceId() {
-        return deviceId;
-    }
-
-    public void setDeviceId(int deviceId) {
-        this.deviceId = deviceId;
-    }
 }

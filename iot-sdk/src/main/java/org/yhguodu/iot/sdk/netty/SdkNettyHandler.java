@@ -5,12 +5,8 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.timeout.IdleStateEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.yhguodu.iot.common.device.IotDeviceStatus;
-import org.yhguodu.iot.common.message.AttachingMessage;
-import org.yhguodu.iot.common.message.IotMessage;
-import org.yhguodu.iot.common.message.KeepAliveMessage;
-import org.yhguodu.iot.sdk.EventHandler;
-import org.yhguodu.iot.sdk.device.DeviceContext;
+import org.yhguodu.iot.common.device.DeviceContext;
+import org.yhguodu.iot.common.message.*;
 
 import java.util.concurrent.TimeUnit;
 
@@ -46,7 +42,13 @@ public class SdkNettyHandler extends ChannelInboundHandlerAdapter{
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) {
         // Echo back the received object to the server.
-       // ctx.write(msg);
+        IotMessage iot = (IotMessage) msg;
+        if(iot.getMsgType() == IotMessageType.CMDREQ) {
+            logger.info("send resp to device {}",iot.getDeviceId());
+            IotCmdReq req = (IotCmdReq) iot;
+            ctx.write(new IotCmdRsp(req.getDeviceId(),req.getCommand(),req.getMsgId()));
+        }
+       //ctx.write(msg);
     }
 
     @Override

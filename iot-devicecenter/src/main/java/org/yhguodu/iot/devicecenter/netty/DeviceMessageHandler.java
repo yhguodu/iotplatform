@@ -11,20 +11,17 @@ import org.yhguodu.iot.common.message.*;
  */
 public class DeviceMessageHandler extends ChannelInboundHandlerAdapter {
     private static final Logger logger = LoggerFactory.getLogger(DeviceMessageHandler.class);
+
+    private EventHandler<NettyEvent> eventHandler;
+
+    public DeviceMessageHandler(EventHandler<NettyEvent> eventHandler) {
+        this.eventHandler = eventHandler;
+    }
+
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) {
-        IotMessage result = (IotMessage)msg;
-        if(result.getMsgType() == IotMessageType.ATTACHING) {
-            logger.info("device id {}", ((AttachingMessage) result).getDevice().getDeviceId());
-        }
-        else if(result.getMsgType() == IotMessageType.DATA) {
-            logger.info("data {}",((IotDataMessage)result).getData());
-        }
-        else if(result.getMsgType() == IotMessageType.KEEPALIVE) {
-            logger.info("keeping alive {}",((KeepAliveMessage)result).getDeviceId());
-        }
-//        // Echo back the received object to the client.
-//        ctx.write(msg);
+        NettyEvent event = new NettyEvent((IotMessage)msg,ctx.channel(),null);
+        eventHandler.readEvent(event);
     }
 
     @Override

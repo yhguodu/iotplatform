@@ -1,9 +1,8 @@
 package org.yhguodu.iot.devicecenter.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.yhguodu.iot.common.result.IotAckResult;
 import org.yhguodu.iot.devicecenter.service.DeviceService;
 
 /**
@@ -18,4 +17,15 @@ public class DeviceCenterController {
     public String test() {
         return "test device controller" + deviceService.getPort();
     }
+
+    @RequestMapping(value = "cmd/{deviceId}",method = RequestMethod.GET)
+    public IotAckResult sendCmdToDevice(@PathVariable("deviceId")int deviceId, @RequestParam("cmd")String req) {
+        return deviceService.cmdDevice(deviceId,req);
+    }
+
+    @RequestMapping(value="/device/servicestatus/{deviceId}",method = RequestMethod.GET)
+    public IotAckResult getDeviceServiceStatus(@PathVariable("deviceId")int deviceId) {
+        return deviceService.getDeviceServiceStatus(deviceId);
+    }
+
 }
