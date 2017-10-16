@@ -20,6 +20,7 @@
 		<module>iot-datacenter</module>
 		<module>iot-common</module>
 		<module>iot-sdk</module>
+		<module>iot-devicecenter</module>
 	</modules>
 
 	<name>iotplatform</name>
