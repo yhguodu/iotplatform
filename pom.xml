@@ -21,6 +21,7 @@
 		<module>iot-common</module>
 		<module>iot-sdk</module>
 		<module>iot-devicecenter</module>
+		<module>iot-starter</module>
 	</modules>
 
 	<name>iotplatform</name>

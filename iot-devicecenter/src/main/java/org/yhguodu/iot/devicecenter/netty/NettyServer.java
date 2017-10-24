@@ -20,7 +20,6 @@ import org.yhguodu.iot.common.exception.IotException;
 import org.yhguodu.iot.common.message.EventHandler;
 import org.yhguodu.iot.common.message.IotMessage;
 
-import java.io.IOException;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**

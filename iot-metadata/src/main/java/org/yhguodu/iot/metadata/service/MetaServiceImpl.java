@@ -26,4 +26,5 @@ public class MetaServiceImpl implements MetaService{
         redisTemplate.opsForValue().set(key,value);
         return true;
     }
+    
 }

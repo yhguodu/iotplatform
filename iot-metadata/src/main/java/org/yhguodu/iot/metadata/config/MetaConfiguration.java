@@ -1,5 +1,6 @@
 package org.yhguodu.iot.metadata.config;
 
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
@@ -11,6 +12,7 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
  * Created by yhguodu on 2017/10/23.
  */
 @Configuration
+@EnableConfigurationProperties(MetaConfigProperties.class)
 public class MetaConfiguration {
     @Bean
     JedisConnectionFactory jedisConnectionFactory() {
