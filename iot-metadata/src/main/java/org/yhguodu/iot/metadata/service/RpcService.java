@@ -16,7 +16,10 @@ import org.yhguodu.iot.common.rpc.RpcMessageResponse;
 import org.yhguodu.iot.metadata.common.RpcEvent;
 import org.yhguodu.iot.metadata.config.MetaConfigProperties;
 import org.yhguodu.iot.metadata.netty.NettyRpcServer;
+import sun.reflect.misc.MethodUtil;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.concurrent.*;
 
 /**
@@ -37,10 +40,14 @@ public class RpcService implements ApplicationContextAware,InitializingBean,Even
 
     private ThreadPoolExecutor threadPool;
 
+    private ConcurrentHashMap<String,Object> ojectMaps = new ConcurrentHashMap<>();
+
     @Override
     public void afterPropertiesSet() throws Exception {
         rpcServer = new NettyRpcServer(properties.getPort(),this);
         threadPool = new ThreadPoolExecutor(10,20,60, TimeUnit.SECONDS,new LinkedBlockingQueue<>(100));
+
+        threadPool.submit(()->rpcServer.init());
     }
 
     @Override
@@ -60,15 +67,26 @@ public class RpcService implements ApplicationContextAware,InitializingBean,Even
             Channel channel = message.getChannel();
             logger.info("request {}",request.toString());
 
-            RpcMessageResponse respones = new RpcMessageResponse(request.getMsgId(),request.getMethodName());
             try {
-                writeEvent(new RpcEvent(respones, channel));
+                Object o = appContext.getBean(Class.forName(request.getClassName()));
+                Method method = o.getClass().getDeclaredMethod(request.getMethodName(),request.getParamTypes());
+                Object result = MethodUtil.invoke(method,o,request.getParamValues());
+                logger.info("result {}",result);
             }
-            catch(IotException e) {
-                logger.info("iotException {}",e);
+            catch(NoSuchMethodException e) {
+                e.printStackTrace();
+            }
+            catch(Exception e) {
+                e.printStackTrace();
             }
         });
     }
+
+//    public Object getObject(String key) {
+//        if(!ojectMaps.containsKey(key)) {
+//
+//        }
+//    }
 
     @Override
     public void writeEvent(RpcEvent message) throws IotException {

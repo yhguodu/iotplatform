@@ -9,19 +9,21 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.serialization.ClassResolvers;
 import io.netty.handler.codec.serialization.ObjectDecoder;
 import io.netty.handler.codec.serialization.ObjectEncoder;
-import io.netty.handler.logging.LogLevel;
-import io.netty.handler.logging.LoggingHandler;
 import io.netty.handler.timeout.IdleStateHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.InitializingBean;
+import org.yhguodu.iot.common.rpc.RpcMessage;
+import org.yhguodu.iot.starter.metadata.MetaStarterProperties;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 /**
  * Created by yhguodu on 2017/10/25.
  */
-public class MetadataRpcClient {
-
+public class MetadataRpcClient implements InitializingBean {
 
     private static final Logger logger = LoggerFactory.getLogger(MetadataRpcClient.class);
     private Bootstrap b;
@@ -31,9 +33,16 @@ public class MetadataRpcClient {
     private String host;
     private int port;
 
+    private ExecutorService executor = Executors.newSingleThreadExecutor();
     public MetadataRpcClient(String host,int port) {
         this.host = host;
         this.port = port;
+    }
+
+    public MetadataRpcClient(MetaStarterProperties properties) {
+        this.host = properties.getHost();
+        this.port = properties.getPort();
+        logger.info("host {},port {}",host,port);
     }
 
     public void init () {
@@ -67,9 +76,19 @@ public class MetadataRpcClient {
 
 
     private void doConnect() {
+        logger.info("connect");
         ChannelFuture future = b.connect(host,port);
         future.addListener(futureListener);
         channel = future.channel();
     }
 
+    public void writeMessage(RpcMessage msg)  {
+        channel.writeAndFlush(msg);
+    }
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        logger.info("init meta rpc client");
+        init();
+        executor.submit(()->doConnect());
+    }
 }

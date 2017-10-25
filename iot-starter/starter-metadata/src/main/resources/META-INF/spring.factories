@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-    org.yhguodu.iot.starter.metadata.MetadataAutoCofinguration
+    org.yhguodu.iot.starter.metadata.MetadataAutoConfiguration
