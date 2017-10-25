@@ -60,15 +60,24 @@ public class NettyClient  {
         bootstrap.option(ChannelOption.TCP_NODELAY, true);
 //        bootstrap.option(ChannelOption.SO_TIMEOUT, 5000);
 
-        futureListener = new ChannelFutureListener() {
-            public void operationComplete(ChannelFuture channelFuture) throws Exception {
-                if(channelFuture.isSuccess()) {
+//        futureListener = new ChannelFutureListener() {
+//            public void operationComplete(ChannelFuture channelFuture) throws Exception {
+//                if(channelFuture.isSuccess()) {
+//                    logger.info("connect success");
+//                }
+//                else {
+//                    channelFuture.channel().eventLoop().schedule(()->doConnect(),3, TimeUnit.SECONDS);
+//                }
+//            }
+//        };
+
+        futureListener = channelFuture -> {
+            if(channelFuture.isSuccess()) {
                     logger.info("connect success");
                 }
                 else {
                     channelFuture.channel().eventLoop().schedule(()->doConnect(),3, TimeUnit.SECONDS);
                 }
-            }
         };
     }
 
@@ -80,6 +89,7 @@ public class NettyClient  {
         logger.info("write message error");
     }
     public void doConnect() {
+        logger.info("try to connect {}",System.currentTimeMillis());
         ChannelFuture future = bootstrap.connect(host,port);
         future.addListener(futureListener);
         channel = future.channel();

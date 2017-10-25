@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.yhguodu.iot.metadata.service.MetaService;
+import org.yhguodu.iot.common.metadata.MetaService;
 
 /**
  * Created by yhguodu on 2017/10/12.

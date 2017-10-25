@@ -3,14 +3,14 @@ package org.yhguodu.iot.metadata.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+import org.yhguodu.iot.common.metadata.MetaService;
 
-import java.util.Optional;
 
 /**
  * Created by yhguodu on 2017/10/23.
  */
 @Service
-public class MetaServiceImpl implements MetaService{
+public class MetaServiceImpl implements MetaService {
 
     @Autowired
     RedisTemplate<String,Long> redisTemplate;

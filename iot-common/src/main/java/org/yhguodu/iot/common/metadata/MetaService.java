@@ -1,4 +1,4 @@
-package org.yhguodu.iot.metadata.service;
+package org.yhguodu.iot.common.metadata;
 
 /**
  * Created by yhguodu on 2017/10/23.
@@ -19,5 +19,5 @@ public interface MetaService {
      * @param value
      * @return
      */
-    boolean putData(String key,long value);
+    boolean putData(String key, long value);
 }
