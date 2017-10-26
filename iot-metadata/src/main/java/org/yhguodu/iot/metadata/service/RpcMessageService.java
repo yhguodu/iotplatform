@@ -12,24 +12,26 @@ import org.springframework.stereotype.Service;
 import org.yhguodu.iot.common.exception.IotException;
 import org.yhguodu.iot.common.message.EventHandler;
 import org.yhguodu.iot.common.rpc.RpcMessageRequest;
-import org.yhguodu.iot.common.rpc.RpcMessageResponse;
+import org.yhguodu.iot.common.service.RpcService;
 import org.yhguodu.iot.metadata.common.RpcEvent;
 import org.yhguodu.iot.metadata.config.MetaConfigProperties;
 import org.yhguodu.iot.metadata.netty.NettyRpcServer;
 import sun.reflect.misc.MethodUtil;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.concurrent.*;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /**
- * Created by yhguodu on 2017/10/24.
+ * Created by yhguodu on 2017/10/26.
  */
-
 @Service
-public class RpcService implements ApplicationContextAware,InitializingBean,EventHandler<RpcEvent> {
+public class RpcMessageService implements ApplicationContextAware,InitializingBean,EventHandler<RpcEvent> {
 
-    private static final Logger logger = LoggerFactory.getLogger(RpcService.class);
+    private static final Logger logger = LoggerFactory.getLogger(RpcMessageService.class);
 
     private ApplicationContext appContext;
 
@@ -40,7 +42,7 @@ public class RpcService implements ApplicationContextAware,InitializingBean,Even
 
     private ThreadPoolExecutor threadPool;
 
-    private ConcurrentHashMap<String,Object> ojectMaps = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<String,Object> objectMaps = new ConcurrentHashMap<>();
 
     @Override
     public void afterPropertiesSet() throws Exception {
@@ -53,9 +55,15 @@ public class RpcService implements ApplicationContextAware,InitializingBean,Even
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.appContext = applicationContext;
+        Map<String,Object> serviceBeanMap = appContext.getBeansWithAnnotation(RpcService.class);
+        serviceBeanMap.forEach((key,value)->{
+            String interfaceName = value.getClass().getAnnotation(RpcService.class).value().getName();
+            logger.info("interfaceName {}",interfaceName);
+            objectMaps.put(interfaceName,value);
+        });
     }
 
-    public void executeRequest(RpcMessageRequest rpcMessageRequest,Channel channel) {
+    public void executeRequest(RpcMessageRequest rpcMessageRequest, Channel channel) {
 
     }
 
@@ -68,7 +76,7 @@ public class RpcService implements ApplicationContextAware,InitializingBean,Even
             logger.info("request {}",request.toString());
 
             try {
-                Object o = appContext.getBean(Class.forName(request.getClassName()));
+                Object o = objectMaps.get(request.getClassName());
                 Method method = o.getClass().getDeclaredMethod(request.getMethodName(),request.getParamTypes());
                 Object result = MethodUtil.invoke(method,o,request.getParamValues());
                 logger.info("result {}",result);

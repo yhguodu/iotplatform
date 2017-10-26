@@ -3,16 +3,14 @@ package org.yhguodu.iot.metadata.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.stereotype.Service;
 import org.yhguodu.iot.common.metadata.MetaService;
-
+import org.yhguodu.iot.common.service.RpcService;
 
 /**
  * Created by yhguodu on 2017/10/23.
  */
-@Service
+@RpcService(MetaService.class)
 public class MetaServiceImpl implements MetaService {
 
     private static final Logger logger = LoggerFactory.getLogger(MetaServiceImpl.class);

@@ -6,6 +6,7 @@ import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 import io.netty.handler.codec.serialization.ClassResolvers;
 import io.netty.handler.codec.serialization.ObjectDecoder;
 import io.netty.handler.codec.serialization.ObjectEncoder;
@@ -13,9 +14,10 @@ import io.netty.handler.timeout.IdleStateHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
-import org.yhguodu.iot.common.rpc.RpcMessage;
+import org.yhguodu.iot.common.rpc.*;
 import org.yhguodu.iot.starter.metadata.MetaStarterProperties;
 
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -55,8 +57,9 @@ public class MetadataRpcClient implements InitializingBean {
                     protected void initChannel(SocketChannel socketChannel) throws Exception {
                         socketChannel.pipeline()
                                 .addLast(new IdleStateHandler(20,0,0, TimeUnit.SECONDS))
-                                .addLast(new ObjectEncoder())
-                                .addLast(new ObjectDecoder(ClassResolvers.cacheDisabled(null)))
+                                .addLast(new RpcEncoder(RpcMessageRequest.class))
+                                .addLast(new LengthFieldBasedFrameDecoder(65536,0,4,0,0))
+                                .addLast(new RpcDecoder(RpcMessageResponse.class))
                                 .addLast(new MetaRpcMessageHandler());
                     }
                 });
@@ -83,7 +86,14 @@ public class MetadataRpcClient implements InitializingBean {
     }
 
     public void writeMessage(RpcMessage msg)  {
-        channel.writeAndFlush(msg);
+        CountDownLatch latch = new CountDownLatch(1);
+        channel.writeAndFlush(msg).addListener((future)->latch.countDown());
+        try {
+            latch.wait();
+        }
+        catch(InterruptedException e) {
+            logger.info("interruptedException",e);
+        }
     }
     @Override
     public void afterPropertiesSet() throws Exception {
