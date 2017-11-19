@@ -16,7 +16,6 @@ import org.yhguodu.iot.common.service.RpcService;
 import org.yhguodu.iot.metadata.common.RpcEvent;
 import org.yhguodu.iot.metadata.config.MetaConfigProperties;
 import org.yhguodu.iot.metadata.netty.NettyRpcServer;
-import sun.reflect.misc.MethodUtil;
 
 import java.lang.reflect.Method;
 import java.util.Map;
@@ -78,7 +77,7 @@ public class RpcMessageService implements ApplicationContextAware,InitializingBe
             try {
                 Object o = objectMaps.get(request.getClassName());
                 Method method = o.getClass().getDeclaredMethod(request.getMethodName(),request.getParamTypes());
-                Object result = MethodUtil.invoke(method,o,request.getParamValues());
+                Object result = method.invoke(o,request.getParamValues());
                 logger.info("result {}",result);
             }
             catch(NoSuchMethodException e) {

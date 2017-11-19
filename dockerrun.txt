@@ -1,0 +1,19 @@
+#stop all containers
+docker stop $(docker ps -q)
+
+#rm all containers
+docker rm $(docker ps -a -q)
+
+#start zookeeper
+docker run -d --name zookeeper -p 2181 -t wurstmeister/zookeeper
+
+#start kafka
+docker run --name kafka -e HOST_IP=localhost -e KAFKA_ADVERTISED_PORT=9092 -e KAFKA_BROKER_ID=1 -e ZK=zk -p 9092 --link zookeeper:zk -t wurstmeister/kafka
+
+#start iot-config
+(1) docker run -d -p 7001:7001 --name=iot-config --link zookeeper:zookeeper --link kafka:kafka -t iotplatform/iot-config
+
+#start iot-servercenter
+docker run -d -p 8761:8761 --link iot-config:iot-config --name=iot-servercenter iotplatform/iot-servercenter
+#start iot-config-test
+docker run -d -p 7002:7002 --link zookeeper:zookeeper --link kafka:kafka --link iot-config:iot-config  --name=iot-config-test iotplatform/iot-config-test
